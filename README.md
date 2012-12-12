@@ -19,11 +19,7 @@ The following is a list of env variables used in this fab library and what
 they are.
 
 VIRTUAL_ENV_PATH : Path to virtualenvs folder.
-e.g.
-
-```python
-env.VIRTUAL_ENV_PATH = /home/user/.virtualenvs
-```
+e.g. env.VIRTUAL_ENV_PATH = /home/user/.virtualenvs
 
 PROJECT_PATH : Path to project.
 e.g. /home/user/projects/project_name
