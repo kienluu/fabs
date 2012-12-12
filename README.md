@@ -2,7 +2,7 @@
 
 
 ## INTRODUCTION
--
+---
 
 This is a portable set of fabric commands for automated server deployment of
 django projects targeting (or will be) ubuntu based machines with
@@ -13,7 +13,7 @@ Planned features:
 
 
 ## ENV CONSTANTS TO SET
--
+---
 
 The following is a list of env variables used in this fab library and what
 they are.
@@ -40,7 +40,7 @@ DYNAMIC_PIP_REQUIREMENT_PATH : path to a list of pip not frozen requirements.
 
 
 ## USAGE
--
+---
 
 git clone or use (git submodule) this repository with a desired module name.
 e.g. fabulous
