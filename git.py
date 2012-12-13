@@ -27,7 +27,7 @@ def git_submodule_update():
 
 @task
 def clone_repository(repo_url, no_submodules=False):
-    if files.exists(env.PROJECT_PATH):
+    if files.exists(env.PROJECT_PATH + '/.git'):
         raise RepositoryPathExistError('Path at "%s" already exist' % env.PROJECT_PATH)
     run('mkdir --parents %s' % env.PROJECT_PATH)
     with cd(env.PROJECT_PATH):
