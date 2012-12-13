@@ -1,4 +1,4 @@
 import re
 
 def normalise_newlines(input):
-    re.sub(r'\r\n', '\n')
+    return re.sub(r'\r\n', '\n', input)
