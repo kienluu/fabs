@@ -15,7 +15,7 @@ updated list
 - helpers for server setup scripts, such as source compilation helpers.
 
 Planned features:
-- templated config files for nginx & supervisord & django
+- setup nginx & supervisord & django config files with templates
 
 
 ## ENV CONSTANTS TO SET
@@ -104,6 +104,7 @@ def deploy():
     collectstatic()
     migrate()
     compass_compile()
+    supervisor_restart(True)
 
 
 # Install nginx script
