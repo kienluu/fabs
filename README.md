@@ -12,8 +12,20 @@ Features:
 - typical apt-get compass, django git make pip and virtualenv commands.
 - one line mysql database setup for you django project.
 - pip requirement files with a frozen requirements list and a non frozen always
-updated list
+updated list.  You just create a non frozen requirements list if you need, and
+there is a helper function to create a pip requirements file with just frozen requirements.
 - helpers for server setup scripts, such as source compilation helpers.
+For example, write a install nginx with modules like this:
+
+	```python
+	@task
+	def install_nginx():
+		download_source(
+		     "http://www.grid.net.ru/nginx/download/nginx_upload_module-2.0.12.tar.gz")
+		make("http://nginx.org/download/nginx-1.2.6.tar.gz",
+		     configure_options='--with-http_ssl_module --add-module=' \
+		     '../nginx_upload_module-2.0.12')
+	```
 
 Planned features:
 - setup nginx & supervisord & django config files with templates
