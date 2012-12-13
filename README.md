@@ -116,6 +116,7 @@ def install_nginx():
     sudo('ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx')
 
 
+# The server will need openssh-server installed at least.
 @task
 def setup_server():
     aptget_install_packages()
