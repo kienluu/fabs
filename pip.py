@@ -4,6 +4,7 @@ import re
 import os
 from fabric.api import env, run, task, cd, puts
 from fabric.contrib import files
+from fabs.utils import normalise_newlines
 from fabs.virtualenv import virtualenv
 
 
@@ -26,7 +27,7 @@ def update_frozen_pip_requirements():
     with virtualenv():
         out = _get_frozen_requirements()
         pip_file_out = run('cat %s' % env.PIP_REQUIREMENT_PATH).stdout
-        pip_file_out = re.sub(r'\r\n','\n',pip_file_out)
+        pip_file_out = normalise_newlines(pip_file_out)
         if out == pip_file_out:
             print green('pip requirements are upto date.')
             return
@@ -81,9 +82,9 @@ def _get_frozen_requirements():
         dynamic_egg_list = _get_eggs(dynamic_reqs)
         with virtualenv():
             freeze_output = run('pip freeze').stdout
-            # Results from run include a '\r\n' in them.  Regex does not treat \r\n as
-        # a newline.  So we must remove this.
-        freeze_output = re.sub(r'\r\n','\n',freeze_output)
+        # Results from run include a '\r\n' in them.  Regex does not treat \r\n
+        # as a newline.  So we must remove this.
+        freeze_output = normalise_newlines(freeze_output)
         for egg_name in dynamic_egg_list:
             # Python 2.6 re.sub command does not take flags so compile the pattern.
             # Also, I'm not sure why the DOTALL flag is needed here.
@@ -95,7 +96,7 @@ def _get_frozen_requirements():
     else:
         with virtualenv():
             freeze_output = run('pip freeze').stdout
-            freeze_output = re.sub(r'\r\n','\n',freeze_output)
+            freeze_output = normalise_newlines(freeze_output)
     return freeze_output
 
 
