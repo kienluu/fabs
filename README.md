@@ -34,6 +34,10 @@ PIP_REQUIREMENT_PATH : path to a list of pip frozen requirements
 DYNAMIC_PIP_REQUIREMENT_PATH : path to a list of pip not frozen requirements.
  This would be github based eggs where you may always want the latest version.
 
+APT_GET_PACKAGES : apt-get packages to install.  It would be good to list them
+all here for future installs so they can be used in part of a install script.
+e.g. env.APT_GET_PACKAGES = 'python2.7-dev mysql-server zip '
+
 
 ## USAGE
 ---

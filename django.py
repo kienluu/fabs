@@ -25,3 +25,8 @@ def collectstatic():
 @task
 def migrate():
     django_command('migrate')
+
+
+@task
+def syncdb():
+    django_command('syncdb')
