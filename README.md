@@ -119,7 +119,11 @@ def install_nginx():
 # The server will need openssh-server installed at least.
 @task
 def setup_server():
+    # Turn off mysql password prompts (before careful of other prompts) and
+    # then prompt user manually with
+    # sudo dpkg-reconfigure mysql-server-5.5
     aptget_install_packages()
+    sudo('dpkg-reconfigure mysql-server-5.5')
     install_nginx()
     try:
         clone_repository('git@github.com:mohu/procor_corp.git')
@@ -127,7 +131,7 @@ def setup_server():
         print red('Repository path already exist.')
     try:
         make_virtualenv()
-    except RepositoryPathExistError, e:
+    except VirtualEnvExistError, e:
         print red('Virtualenv already exist.')
 
 ```
