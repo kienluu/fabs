@@ -1,4 +1,6 @@
 from fabric.api import env, run, task, cd
+from fabric.contrib import files
+from fabs.exceptions import RepositoryPathExistError
 
 
 @task
@@ -21,3 +23,15 @@ def git_submodule_update():
     """
     with cd(env.PROJECT_PATH):
         run('git submodule update')
+
+
+@task
+def clone_repository(repo_url, no_submodules=False):
+    if files.exists(env.PROJECT_PATH):
+        raise RepositoryPathExistError('Path at "%s" already exist' % env.PROJECT_PATH)
+    run('mkdir --parents %s' % env.PROJECT_PATH)
+    with cd(env.PROJECT_PATH):
+        run('git clone "%s" .' % repo_url)
+        if not no_submodules:
+            run('git submodule init')
+            run('git submodule update')

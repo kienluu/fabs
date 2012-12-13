@@ -5,10 +5,14 @@ from fabric.api import *
 from fabric.contrib import files
 from fabs.exceptions import UnknownFormatError
 
-def make(url, download_only=False, out_folder=None):
+def make(url, download_only=False, out_folder=None, configure_options='',
+         configure_arguments='', make_options='', use_sudo=True):
     """
     Download source and make install
     """
+
+    run_or_sudo = sudo if use_sudo else run
+
     # TODO: find out how to use pythons tempfile.gettempdir() results from the
     # remote machine here.
     TMP_DIR = '/tmp'
@@ -41,6 +45,20 @@ def make(url, download_only=False, out_folder=None):
         run('rm -rf "$(echo %s)"' % out_folder)
         run('wget %s --output-document=%s' % (url, source_name) )
         unarchiver(source_name, out_folder)
+
+        if not download_only:
+            with cd(out_folder):
+                if configure_arguments and configure_arguments[-1] != ' ':
+                    configure_arguments += ' '
+                run('%s./configure %s' % (
+                    configure_arguments, configure_options))
+                run('make %s' % make_options)
+                run_or_sudo('make install')
+
+
+def download_source(url, out_folder=None):
+    make(url, out_folder=out_folder, download_only=True)
+
 
 
 def simple_untar(path, out_folder=None):

@@ -8,6 +8,12 @@ This is a portable set of fabric commands for automated server deployment of
 django projects targeting (or will be) ubuntu based machines with
 virtualenvs, supervisord, nginx and sass compass for css preprocessing.
 
+Features:
+- Typical apt-get compass, django git make pip and virtualenv commands.
+- pip requirement files with a frozen requirements list and a non frozen always
+updated list
+- helpers for server setup scripts, such as source compilation helpers.
+
 Planned features:
 - templated config files for nginx & supervisord
 
@@ -71,6 +77,16 @@ env.PIP_REQUIREMENT_PATH = env.PROJECT_PATH + \
                            '/configuration/pip-frozen-requirements.txt'
 env.PIP_DYNAMIC_REQUIREMENT_PATH = env.PROJECT_PATH + \
                            '/configuration/pip-dynamic-requirements.txt'
+env.APT_GET_PACKAGES = \
+	'build-essential curl git-core libfreetype6 ' \
+	'libfreetype6-dev libjpeg62 libjpeg62-dev libmysql++-dev ' \
+	'libmysqlclient15-dev libpcre3-dev libssl-dev libtool libxml2 ' \
+	'libxml2-dev libxslt-dev linux-kernel-headers lsof mysql-server ' \
+	'python-dev python-imaging python-pip python-setuptools ' \
+	'python-software-properties python-virtualenv virtualenvwrapper ' \
+	'python2.7-dev ' \
+	'supervisor unzip uuid-dev wget xvfb zip ' \
+	'zlib1g-dev memcached '
 
 
 env.roledefs = {
@@ -78,6 +94,7 @@ env.roledefs = {
 }
 
 
+# Deploy script to update server.
 @task
 def deploy():
     git_pull()
@@ -86,4 +103,30 @@ def deploy():
     collectstatic()
     migrate()
     compass_compile()
+
+
+# Install nginx script
+@task
+def install_nginx():
+    download_source(
+    "http://www.grid.net.ru/nginx/download/nginx_upload_module-2.0.12.tar.gz")
+    make("http://nginx.org/download/nginx-1.2.6.tar.gz",
+         configure_options='--with-http_ssl_module --add-module=' \
+                           '../nginx_upload_module-2.0.12')
+    sudo('ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx')
+
+
+@task
+def setup_server():
+    aptget_install_packages()
+    install_nginx()
+    try:
+        clone_repository('git@github.com:mohu/procor_corp.git')
+    except RepositoryPathExistError, e:
+        print red('Repository path already exist.')
+    try:
+        make_virtualenv()
+    except RepositoryPathExistError, e:
+        print red('Virtualenv already exist.')
+
 ```
