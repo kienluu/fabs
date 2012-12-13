@@ -6,3 +6,4 @@ from .git import *
 from .pip import *
 from .virtualenv import *
 from .supervisord import *
+from .mysql import *
