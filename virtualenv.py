@@ -56,7 +56,6 @@ def make_virtualenv(virtualenv_name=None):
             run('easy_install -U distribute')
 
     def _error_on_virtualenv_exist():
-        run('echo $(env)')
         exists = run('test -e $VIRTUALENVWRAPPER_HOOK_DIR/%s'\
             % env.DJANGO_PROJECT_NAME, warn_only=True).succeeded
         if not exists:

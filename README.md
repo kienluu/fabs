@@ -4,18 +4,18 @@
 ## INTRODUCTION
 ---
 
-This is a portable set of fabric commands for automated server deployment of
-django projects targeting (or will be) ubuntu based machines with
+This is a portable set of fabric commands for writing scripts to automate server
+deployment of django projects targeting ubuntu based machines with
 virtualenvs, supervisord, nginx and sass compass for css preprocessing.
 
 Features:
-- Typical apt-get compass, django git make pip and virtualenv commands.
+- typical apt-get compass, django git make pip and virtualenv commands.
 - pip requirement files with a frozen requirements list and a non frozen always
 updated list
 - helpers for server setup scripts, such as source compilation helpers.
 
 Planned features:
-- templated config files for nginx & supervisord
+- templated config files for nginx & supervisord & django
 
 
 ## ENV CONSTANTS TO SET
@@ -91,6 +91,7 @@ env.APT_GET_PACKAGES = \
 
 env.roledefs = {
 'staging': ['user@project_name.example.com'],
+'test_box': ['mohu@192.168.160.132'],
 }
 
 
@@ -122,7 +123,7 @@ def setup_server():
     # Turn off mysql password prompts (before careful of other prompts) and
     # then prompt user manually with
     # sudo dpkg-reconfigure mysql-server-5.5
-    aptget_install_packages()
+    aptget_install_packages(True)
     sudo('dpkg-reconfigure mysql-server-5.5')
     install_nginx()
     try:
