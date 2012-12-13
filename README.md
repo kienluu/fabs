@@ -10,6 +10,7 @@ virtualenvs, supervisord, nginx and sass compass for css preprocessing.
 
 Features:
 - typical apt-get compass, django git make pip and virtualenv commands.
+- one line mysql database setup for you django project.
 - pip requirement files with a frozen requirements list and a non frozen always
 updated list
 - helpers for server setup scripts, such as source compilation helpers.
@@ -135,5 +136,7 @@ def setup_server():
         make_virtualenv()
     except VirtualEnvExistError, e:
         print red('Virtualenv already exist.')
+    with settings(warn_only=True):
+            new_mysql_db()
 
 ```
