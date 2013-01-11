@@ -9,7 +9,7 @@ deployment of django projects targeting ubuntu based machines with
 virtualenvs, supervisord, nginx and sass compass for css preprocessing.
 
 Features:
-- typical apt-get compass, django git make pip and virtualenv commands.
+- typical apt-get, compass, django, git, make, pip, and virtualenv commands.
 - one line mysql database setup for you django project.
 - pip requirement files with a frozen requirements list and a non frozen always
 updated list.  You just create a non frozen requirements list if you need, and
