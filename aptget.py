@@ -4,6 +4,9 @@ from fabric.api import *
 
 @needs_host
 def aptget_install_packages(use_sudo=True, non_interactive=False):
+    # TODO: instead of using a non interactive mode I should use the debconf-set-selections
+    # method, getting the settings from debconf-get-selections available from the debconf-utils
+    # package.
     run_or_sudo = sudo if use_sudo else run
     if not non_interactive:
         non_interactive = ''
